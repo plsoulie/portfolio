@@ -15,6 +15,27 @@ module.exports = {
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
   },
   plugins: [
+    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-styled-components`,
+    {
+      resolve: "gatsby-source-github-api",
+      options: {
+        token: process.env.GITHUB_TOKEN,
+        graphQLQuery: `
+          query {
+            viewer {
+              repositories(first: 50, orderBy: {field: CREATED_AT, direction: DESC}) {
+                nodes {
+                  name
+                  description
+                  url
+                }
+              }
+            }
+          }
+        `,
+      },
+    },
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
